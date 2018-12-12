@@ -144,7 +144,7 @@ var IssueRow = function IssueRow(props) {
 };
 
 function IssueTable(props) {
-  var issueRows = this.props.issues.map(function (issue) {
+  var issueRows = props.issues.map(function (issue) {
     return React.createElement(IssueRow, { key: issue.id, issue: issue });
   });
   return React.createElement(

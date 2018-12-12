@@ -69,7 +69,7 @@ const IssueRow = (props) => (
     );
 
 function IssueTable(props) {
-    const issueRows = this.props.issues.map(issue => <IssueRow key={issue.id} issue={issue}/>);
+    const issueRows = props.issues.map(issue => <IssueRow key={issue.id} issue={issue}/>);
     return (
       <table className="bordered-tatle">
         <thead>
