@@ -1,27 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
 app.use(express.static('static'));
 app.use(bodyParser.json());
 
-const issues = [{
-  id: 1,
-  status: 'Open',
-  owner: 'Ravan',
-  created: new Date('2016-08-15'),
-  effort: 5,
-  completionDate: undefined,
-  title: "Error in console when clicking add"
-},{
-  id: 2,
-  status: 'Assigned',
-  owner: 'Eddle',
-  created: new Date('2016-08-16'),
-  effort: 14,
-  completionDate: new Date('2016-08-30'),
-  title: "Missing bottom border on panel"
-}]
+let db;
 
 const validIssueStatus = {
   New: true,
@@ -78,7 +63,22 @@ app.post('/api/issues', (req, res) =>{
 
 
 
-
-app.listen(3000, ()=>{
-  console.log('app started on port 3000');
+MongoClient.connect('mongodb://localhost/issuetracker').then(connection => {
+  db = connection;
+  app.listen(3000, ()=>{
+    console.log('app started on port 3000');
+  })
+}).catch(error => {
+  console.log('error', error);
 })
+
+app.get('/api/issues', (req, res) => {
+
+  db.collection('issues').find().toArray().then(issues => {
+    const metadata = {total_count:issues.length};
+    res.json({_metadata:metadata, records: issues});
+  }).catch(error => {
+      console.log(error);
+      res.status(500).json({ message: `Internal Server Error: ${error}` });
+    });
+});
