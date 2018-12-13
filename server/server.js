@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 
-const Issue = require(./issue.js);
+const Issue = require('./issue.js');
 
 const app = express();
 app.use(express.static('static'));
