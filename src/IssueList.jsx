@@ -1,5 +1,7 @@
 // import IssueAdd from './IssueAdd.jsx';
 import IssueFilter from './IssueFilter.jsx';
+import React from 'react';
+import 'whatwg-fetch'
 
 const IssueRow = (props) => (
       <tr>
@@ -103,7 +105,7 @@ export default class IssueList extends React.Component {
         <br />
         <IssueTable issues={this.state.issues}/>
         <br />
-        
+
       </div>
     );
   }
